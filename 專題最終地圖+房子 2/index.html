@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>MAP OF YUNTECH</title>
+      <link rel="stylesheet" href="styles.css"/>
+   </head>
+   <body>
+      <h1>MAP OF YUNTECH</h1>
+      <canvas id="myCanvas"></canvas>
+      <div id="controls">
+         <select id="mapSelect">
+            <option value="">Select map</option>
+            <option value="map1">工程學院</option>
+            <option value="map2">設計學院</option>
+            <option value="map3">管理學院</option>
+            <option value="map4">人文學院</option>
+            <option value="map5">未來學院</option>
+         </select>
+         <button onclick="dispose()">🗑️</button>
+         <button onclick="save()">💾</button>
+         <button onclick="cancel()">🧹</button>
+         <button onclick="store()">🧠</button>
+         
+         <label for="fileInput" class="file-input-label">
+            📂
+            <input
+               type="file"
+               id="fileInput"
+               accept=".world"
+               onchange="load(event)"
+               />
+         </label>
+
+         <button onclick="openOsmPanel()">🌍</button>
+         
+         &nbsp;
+         <button id="targetBtn" onclick="setMode('target')">🎯</button>
+
+
+         <button id="btnCar" onclick="placeCar()">🚙</button>
+         <button id="offsets" onclick="dispOffsets()">➡️</button>
+         <button id="stopcar" onclick="stopcar()">🛑</button>
+         <p id="kpVal"></p>
+
+       <div id="osmPanel" style="display:none;">
+            <textarea id="osmDataContainer" rows="10" cols="50" 
+               placeholder="Paste OSM data here"></textarea>
+            <div>
+               <button onclick="parseOsmData()">✔️</button>
+               <button onclick="closeOsmPanel()">❌</button>
+            </div>
+         </div>
+      </div>
+
+      <script src="js/world.js"></script>
+      <script src="js/graphEditor.js"></script>
+      <script src="js/viewport.js"></script>
+      <script src="js/items/tree.js"></script>
+      <script src="js/items/building.js"></script>
+      <script src="js/items/water.js"></script>
+      <script src="js/items/Pitch.js"></script>
+      <script src="js/items/grass.js"></script>
+      <script src="js/math/utils.js"></script>
+      <script src="js/math/graph.js"></script>
+      <script src="js/math/osm.js"></script>
+      <script src="js/primitives/point.js"></script>
+      <script src="js/primitives/segment.js"></script>
+      <script src="js/primitives/polygon.js"></script>
+      <script src="js/primitives/envelope.js"></script>
+      
+      <script src="controls.js"></script>
+      <!-- <script src="network.js"></script> -->
+       <script src="netPD.js"></script>
+      <script src="sensor.js"></script>
+      <script src="car.js"></script>
+      <script src="main.js"></script>
+      
+   </body>
+</html>
+<script>
+       function openOsmPanel(){
+            osmPanel.style.display="block";
+         }
+         function closeOsmPanel(){
+            osmPanel.style.display="none";
+         }
+         function parseOsmData(){
+            if(osmDataContainer.values==""){
+               alert("Paste data first");
+               return;
+            }
+            const res= Osm.parseRoads(JSON.parse(osmDataContainer.value));
+            graph.points=res.points;
+            graph.segments=res.segments;
+            closeOsmPanel();
+         }
+
+</script>
